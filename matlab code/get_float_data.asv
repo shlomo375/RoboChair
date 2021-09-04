@@ -1,0 +1,9 @@
+function data = step_velocity(client,motor,k)
+if(motor == 1)
+    order = uint8([101 k]);
+    client.write(order);
+    pause(0.1);
+    
+
+data = read(client,1,'double');
+end
