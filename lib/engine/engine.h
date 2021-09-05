@@ -3,6 +3,8 @@
 
 #include <Arduino.h>
 #include <pid.h>
+#include <atomic>
+#include <memory>
 
 class engine
 {
@@ -27,7 +29,7 @@ public:
     void set_engine_pwm(int16_t pwm);
     void get_info(char* info);
     float get_speed();
-    void update_motor_speed(volatile int encoder_count, portMUX_TYPE mux);
+    void update_motor_speed(std::atomic<int>* encoder_count);
 
 };
 

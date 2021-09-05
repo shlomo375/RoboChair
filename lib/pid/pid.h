@@ -1,6 +1,11 @@
 #ifndef pid_h
 #define pid_h
 #include <engine.h>
+#include <atomic>
+#include <memory>
+
+
+
 class engine;
 class pid
 {
@@ -31,7 +36,7 @@ public:
     void set_input(float in);
     void set_current(float c);
     int get_output();
-    void compute_pid(engine *motor, int counter, portMUX_TYPE* mux);
+    void compute_pid(engine *motor, std::atomic<int>* counter);
 
 };
 

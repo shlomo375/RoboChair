@@ -1,5 +1,7 @@
 #include <Arduino.h>
 #include <engine.h>
+#include <atomic>
+#include <memory>
 
 engine::engine(){
   num = 0;
@@ -50,23 +52,31 @@ void engine::set_engine_pwm(int16_t pwm){
       ledcWrite(plus_channel, 0);
       ledcWrite(minus_channel, 0);
     }
-    Serial.print("dir: ");
-  Serial.println(direction);
 }
 
 float engine::get_speed(){
   return speed;
 }
 
-// void engine::update_motor_speed(volatile int encoder_count, portMUX_TYPE* mux){
+void engine::update_motor_speed(std::atomic<int>* encoder_count){
+  // int encoder = encoder_count;
+
+//   Serial.print("dir: ");
+//   Serial.print(direction);
+//   Serial.print("  encoder: ");
+//   Serial.print(*encoder_count);
+//   Serial.print("  coeff: ");
+// Serial.print(speed_coefficient);
   
-//   portENTER_CRITICAL(mux);
-//   speed = (float)direction * (float)encoder_count * speed_coefficient; // mm/ms = m/s
-//   encoder_count = 0;
-//   portEXIT_CRITICAL(mux);
+
+
+  speed = (float)direction * (float)*encoder_count * speed_coefficient; // mm/ms = m/s
+  *encoder_count = 0;
   
   
-// }
+  // Serial.print("  sssspeed: ");
+  // Serial.println(speed);
+}
 
 void engine::set_configuration(const int freq, const int res){
   ledcSetup(plus_channel, freq, res);

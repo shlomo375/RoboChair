@@ -1,6 +1,8 @@
 #include <Arduino.h>
 #include <pid.h>
 #include <engine.h>
+#include <atomic>
+#include <memory>
 
 pid::pid()
 {
@@ -62,8 +64,8 @@ int pid::get_output(){
 void pid::set_current(float c){
     current = c;
 }
-void pid::compute_pid(engine *motor, int counter, portMUX_TYPE* mux){
-    // motor->update_motor_speed(counter, mux);
+void pid::compute_pid(engine *motor, std::atomic<int>* counter){
+    motor->update_motor_speed(counter);
     
     error = input - motor->get_speed();
     float d_error = error - last_error;

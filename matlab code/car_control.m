@@ -10,11 +10,9 @@ clear;
 ip_address = "192.168.43.217";
 port = 23;
 client = tcpclient(ip_address,port);
-%configureTerminator(client,"CR/LF")
+
 
  
- % data = uint8([100 1 0 1])
- %write(client,data);
  
 %%
 %client.NumBytesAvailable

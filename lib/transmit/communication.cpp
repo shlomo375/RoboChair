@@ -132,33 +132,23 @@ uint8_t get_float_data(WiFiClient *remote_client, float* float_data,uint8_t data
 
 
 bool get_order(WiFiClient *remote_client, uint8_t *order, float *data, size_t order_buf_size){
-  // uint8_t o[5];
-  // size_t s=5;
+
   if(remote_client->available() && remote_client->connected()){
-    // remote_client->printf("check point 2");
-    // remote_client->print("order buf size: ");
-    // remote_client->print("end: ");
     remote_client->read(order,order_buf_size);
-    // remote_client->read(o,s);
-    // remote_client->writ("check point 3");
     if(order[0]==1){
-      // remote_client->print("check point 4");
+      while(remote_client->available() == 0 && remote_client->connected());
       uint8_t packege = get_float_data(remote_client, data, order[2]);
-      // remote_client->print("check point 5");
+
       if(packege == order[2]){
-        // remote_client->print("check point 6");
         // remote_client->print("controler get all the data.");
         return true;
       }
       else{
-        // remote_client->print("check point 7");
         return false;
       }
-      // remote_client->print("check point 8");
     }
     else
     {
-      // remote_client->print("check point 9");
       // Serial.printf("After executing the command the data will be sent.");
       return true;
     }
